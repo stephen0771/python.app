@@ -12,21 +12,28 @@ class ToDo(db.Model):
         return f'<ToDo {self.id}>'
     @app.route('/')
     def index():
+        return jsonify({
+            "message":"welcome to simple ToDo List API",
+            "status":"online",
+            "version":"1.0.0",
+            "created_by":"s.k mulwa",
+            "inspected_by":"Slyvester Musyoki"
+        })
         todos = ToDo.query.all()
         return render_template('index.html', todos=todos)
-    @app.route('/add', methods=['POST'])
+    """@app.route('/add', methods=['POST'])
     def add():
         title = request.form['title']
         description = request.form['description']
         new_todo = ToDo(title=title, description=description)
         db.session.add(new_todo)
         db.session.commit()
-        return redirect(url_for())
-        @app.route('/delete/<int:id>')
-        def delete(id):
-            ToDo.query.filter_by(id=id).delete()
-            db.session.commit()
-            return redirect(url_for('index'))
+        return redirect(url_for())"""
+    @app.route('/delete/<int:id>')
+    def delete(id):
+        ToDo.query.filter_by(id=id).delete()
+        db.session.commit()
+        return redirect(url_for('index'))
 if __name__ == '__ main_':
     db.create_all()
     app.run(debug=True)
